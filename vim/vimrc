@@ -1,0 +1,71 @@
+"
+" Scott Parkerson's .vimrc
+"
+"
+
+" Use utf-8 encoding, always
+set encoding=utf-8
+
+" This stuff is run if syntax highlighting was compiled in to vim
+" and the terminal can display more than two colors
+if has('syntax')
+    syntax enable
+    set background=light
+    let g:solarized_termtrans=1
+    colorscheme solarized
+    " Start syntax highlighting
+endif
+
+" Soft tabs every four spaces is my preferred default
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+
+" I like line numbering for most files
+set number
+
+if (v:version > 700)
+    set numberwidth=6
+endif
+
+" Smart indentation is on for all files
+filetype indent on
+filetype plugin on
+
+" Don't expandtab for Makefiles
+au FileType make setlocal noexpandtab ts=8 sw=8
+au FileType automake setlocal noexpandtab ts=8 sw=8
+
+" Don't wrap for most files...
+set textwidth=0
+
+" ...except for text files, which should wrap at 78 chars
+" (no line numbering for text, either)
+au FileType text setlocal textwidth=78
+au FileType text setlocal nonumber
+au FileType mail setlocal textwidth=78
+au FileType mail setlocal nonumber
+au FileType taskpaper setlocal nonumber
+
+" Highlight trailing whitespace, tabs
+set list listchars=tab:»·,trail:·
+
+au BufRead,BufNewFile *.j setf objj
+
+" Auto strip (not in use right now as it introduces noise into 
+" source control commits)
+"
+" Automatically strip trailing white-space before saving a file. Note this
+" overrides the s mark (to jump back to current position if the substitution
+" jumped to a match).
+"autocmd BufWrite *     mark s | %s/\s\+$//e | normal `s
+
+" markdown filetype file
+augroup markdown
+ au! BufRead,BufNewFile *.mkd   setfiletype mkd
+ autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:>
+augroup END
+
+
+
