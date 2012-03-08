@@ -64,3 +64,6 @@ vbell                 on              # default: ???
 # Message to be displayed when the visual bell is triggered.
 vbell_msg             " *beep* "
 
+# Set SSH_AUTH_SOCK
+setenv SSH_AUTH_SOCK $HOME/.ssh/ssh_auth_sock
+

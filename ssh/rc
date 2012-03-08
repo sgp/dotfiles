@@ -1,0 +1,2 @@
+#!/bin/bash
+[ ! -z "$SSH_AUTH_SOCK" ] && ln -sfv $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
