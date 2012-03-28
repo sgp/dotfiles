@@ -6,3 +6,8 @@ if [ -f /etc/bashrc ]; then
 fi
 
 # User specific aliases and functions
+alias svn_untracked='svn stat --ignore-externals | grep '^?' | cut -c9-'
+alias svn_up_files='svn up --set-depth=files'
+alias svn_up_immediates='svn up --set-depth=immediates'
+alias svn_up_infinity='svn up --set-depth=infinity'
+alias svn_purge_untracked='svn_untracked | xargs rm -rf'
