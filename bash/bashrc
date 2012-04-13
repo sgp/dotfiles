@@ -5,6 +5,26 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
+# User specific environment and startup programs
+PATH=$PATH:$HOME/.local/bin:$HOME/bin
+export PATH
+
+case $TERM in
+  xterm*)
+    PROMPT_COMMAND='printf "\033]0;%s@%s:%s\007" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
+    ;;
+  screen)
+    PROMPT_COMMAND='printf "\033]0;%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
+    ;;
+  *)
+    [ -e /etc/sysconfig/bash-prompt-default ] && PROMPT_COMMAND=/etc/sysconfig/bash-prompt-default
+    ;;
+  esac
+
+# Turn on checkwinsize
+shopt -s checkwinsize
+PS1="[\u@\h \W]\\$ "
+
 # User specific aliases and functions
 alias svn_untracked='svn stat --ignore-externals | grep '^?' | cut -c9-'
 alias svn_up_files='svn up --set-depth=files'
@@ -13,7 +33,9 @@ alias svn_up_infinity='svn up --set-depth=infinity'
 alias svn_purge_untracked='svn_untracked | xargs rm -rf'
 alias svn_stat_nx='svn stat --ignore-externals'
 
-alias go_highwoods='ssh -A sparkers@dataproc.hw.ateb.com -t screen -d -RR'
-alias go_ottawa='ssh -A sparkers@dataproc.ott.atebsb.ca -t screen -d -RR'
-alias go_sumner='ssh -A sparkers@xenvm-dev-1.ateb.com -t screen -d -RR'
-alias go_unpunk='ssh -A fld4wrp5@unpunk.com -t screen -d -RR'
+alias go_highwoods='ssh -A sparkers@dataproc.hw.ateb.com'
+alias go_ottawa='ssh -A sparkers@dataproc.ott.atebsb.ca'
+alias go_sumner='ssh -A sparkers@xenvm-dev-1.ateb.com'
+alias go_unpunk='ssh -A fld4wrp5@unpunk.com'
+
+alias scrat='screen -d -RR'

@@ -48,7 +48,7 @@ defhstatus            "^Et"
 pow_detach_msg        "BYE"
 
 # Set the default program for new windows.
-shell                 -$SHELL
+shell                 $SHELL
 
 # Default timeout to trigger an inactivity notify.
 silencewait           30              # default: 30
