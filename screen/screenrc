@@ -31,13 +31,17 @@ defscrollback         3000            # default: 100
 # command hardcopy; otherwise, these files are overwritten each time.
 hardcopy_append       on              # default: off
 
-# This command configures the use and emulation of the terminal's hardstatus
-# line. The type 'lastline' will reserve the last line of the display for the
-# hardstatus. Prepending the word 'always' will force screen to use the type
-# even if the terminal supports a hardstatus line.
+# Define backtick 0 as the hostname
 backtick              0 3600 3600 hostname -f
-hardstatus            alwayslastline  "%{=wG}[ %0` ] Load: %l %-=%c  %Y.%m.%d"
-msgwait               15
+
+# Put the hardstatus in the title bar, if we have one
+termcapinfo xterm*|rxvt*|kterm*|Eterm* 'hs:ts=\E]0;:fs=\007:ds=\E]0;\007'
+
+# define the default hardstatus string
+hardstatus            string "%0`: screen %n (%t) | %h"
+
+# default descriptive hard status, which should be the xterm window title
+defhstatus            "^Et"
 
 # Set message displayed on pow_detach (when HUP is sent to screen's parent
 # process).
