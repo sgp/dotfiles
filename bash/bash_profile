@@ -5,8 +5,10 @@ if [ -f ~/.bashrc ]; then
 	. ~/.bashrc
 fi
 
-clear
-echo "$HOSTNAME: $(/usr/bin/uptime)"
+echo "Welcome to $HOSTNAME, $USER."
+echo "$(/usr/bin/uptime)"
+echo ""
+[ -x /usr/bin/fortune ] && /usr/bin/fortune
 
 # User specific environment and startup programs
 PATH=$PATH:$HOME/.local/bin:$HOME/bin
