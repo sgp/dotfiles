@@ -22,6 +22,9 @@ set softtabstop=4
 set shiftwidth=4
 set expandtab
 
+" Unless I'm editing ruby
+au FileType ruby setlocal sts=2 sw=2
+
 " I like line numbering for most files
 set number
 
