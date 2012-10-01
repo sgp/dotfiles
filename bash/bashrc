@@ -34,6 +34,7 @@ alias svn_purge_untracked='svn_untracked | xargs rm -rf'
 alias svn_stat_nx='svn stat --ignore-externals'
 
 alias go_highwoods='ssh -A sparkers@dataproc.hw.ateb.com'
+alias go_departure='ssh -A sparkers@dataproc.dep.ateb.com'
 alias go_ottawa='ssh -A sparkers@dataproc.ott.atebsb.ca'
 alias go_sumner='ssh -A sparkers@xenvm-dev-1.ateb.com'
 alias go_unpunk='ssh -A fld4wrp5@unpunk.com'
