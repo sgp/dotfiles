@@ -9,23 +9,29 @@ fi
 PATH=$PATH:$HOME/.local/bin:$HOME/bin
 export PATH
 
-case $TERM in
-  xterm*)
-    PROMPT_COMMAND='printf "\033]0;%s@%s:%s\007" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
-    ;;
-  screen)
-    PROMPT_COMMAND='printf "\033]0;%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
-    ;;
-  *)
-    [ -e /etc/sysconfig/bash-prompt-default ] && PROMPT_COMMAND=/etc/sysconfig/bash-prompt-default
-    ;;
-  esac
-
 # Turn on checkwinsize
 shopt -s checkwinsize
 PS1="[\u@\h \W]\\$ "
 
 # User specific aliases and functions
+
+# Colors
+export CLICOLOR=1
+export LSCOLORS=DxGxcxdxCxegedabagacad
+c_red="\[\e[0;31m\]"
+c_green='\[\e[0;32m\]'
+c_darkgrey='\[\e[0;30m\]'
+c_cyan='\[\e[0;36m\]'
+c_reset='\[\e[m\]'
+
+# Reattach/create screen
+alias scrat='screen -d -RR'
+
+# SSH Things
+alias go_unpunk='ssh -A fld4wrp5@unpunk.com'
+alias go_ike='ssh -A sgp@ike.troan.org'
+
+# SVN-specific
 alias svn_untracked='svn stat --ignore-externals | grep '^?' | cut -c9-'
 alias svn_up_files='svn up --set-depth=files'
 alias svn_up_immediates='svn up --set-depth=immediates'
@@ -33,14 +39,27 @@ alias svn_up_infinity='svn up --set-depth=infinity'
 alias svn_purge_untracked='svn_untracked | xargs rm -rf'
 alias svn_stat_nx='svn stat --ignore-externals'
 
-alias go_departure='ssh -A sparkers@dataproc.dep.ateb.com'
-alias go_ottawa='ssh -A sparkers@dataproc.ott.rxoutreach.ca'
-alias go_sumner='ssh -A sparkers@xenvm-dev-1.ateb.com'
-alias go_unpunk='ssh -A fld4wrp5@unpunk.com'
+# Git support
+if [ -e "$HOME/.git-prompt.sh" ]; then
+  export GIT_PS1_SHOWDIRTYSTATE="1"
+  export GIT_PS1_SHOWSTASHSTATE="1"
+  export GIT_PS1_SHOWUNTRACKEDSTATE="1"
+  . $HOME/.git-prompt.sh
+  export PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ " " [%s] "'
+fi
 
-alias mvnateb='mvn -s $HOME/.m2/settings-ateb.xml'
-
-alias scrat='screen -d -RR'
+# Prompt stuff
+# case $TERM in
+#   xterm*)
+#     PROMPT_COMMAND='printf "\033]0;%s@%s:%s\007" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
+#     ;;
+#   screen)
+#     PROMPT_COMMAND='printf "\033]0;%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
+#     ;;
+#   *)
+#     [ -e /etc/sysconfig/bash-prompt-default ] && PROMPT_COMMAND=/etc/sysconfig/bash-prompt-default
+#     ;;
+# esac
 
 # Always use vi(m), dammit
 if [ -x /usr/bin/vim ]; then
@@ -51,12 +70,9 @@ fi
 
 [ ! -z $VISUAL ] && export VISUAL
 
-
 # Add local customizations
 if [ -d $HOME/.bashrc.d ]; then
     for f in $HOME/.bashrc.d/*; do
         . $f
     done
 fi
-
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
